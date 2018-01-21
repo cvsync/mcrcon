@@ -1,0 +1,64 @@
+#
+# Copyright (c) 2017 - 2018 MAEKAWA Masahide @ M-Systems, Inc.
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+#
+
+PROG=	mcrcon
+
+SRCS=	$(PROG).c
+
+CFLAGS=  -O3 -pipe -fstack-protector-all
+CFLAGS+= -D_POSIX_C_SOURCE=200112L -D_XOPEN_SOURCE=600
+CFLAGS+= -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+CFLAGS+= -Wno-unknown-warning-option
+CFLAGS+= -Werror -Weverything
+CFLAGS+= -Wno-documentation-unknown-command
+CFLAGS+= -Wno-disabled-macro-expansion
+CFLAGS+= -Wno-empty-translation-unit
+CFLAGS+= -Wno-format-nonliteral
+CFLAGS+= -Wno-padded
+CFLAGS+= -Wno-pedantic
+CFLAGS+= -Wno-reserved-id-macro
+CFLAGS+= -Wno-unused-macros
+CFLAGS+= -I.
+
+LDFLAGS=
+
+LIBS=
+
+CC=	clang
+RM?=	rm -f
+
+OBJS=	$(SRCS:.c=.o)
+
+all: $(PROG)
+
+clean:
+	$(RM) $(PROG) *.core *.o
+
+$(PROG): $(OBJS)
+	$(CC) $(LDFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
