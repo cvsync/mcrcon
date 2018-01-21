@@ -40,7 +40,7 @@ LDFLAGS=
 
 LIBS=
 
-CC=	gcc
+CC=	cc
 RM?=	rm -f
 
 OBJS=	$(SRCS:.c=.o)
